@@ -15,7 +15,6 @@ int *vect_new(int n){
 */
  
 int main(){
-<<<<<<< HEAD
  
     int i,z,y,k,primeiro;
     float *nums = NULL;
@@ -31,23 +30,6 @@ int main(){
     for(i=0;i<2;i++){
         for(z=0;z<2;z++){
             scanf("%f",&matriz[i][z]);
-=======
-
-    int i,z,y,k,primeiro;
-    float *nums = NULL;
-    int **matriz = NULL;
-    //scanf("%d",&2);
-
-    //ALOCAÇÕES
-    matriz = (int**)malloc(2*sizeof(int*));
-    for(i=0;i<2;i++) matriz[i] = (int*)malloc(2*sizeof(int));
-    nums = (float*)malloc((2*2)*sizeof(int));
-    //-----------------------------------------
-
-    for(i=0;i<2;i++){
-        for(z=0;z<2;z++){
-            scanf("%d",&matriz[i][z]);
->>>>>>> d9bb383bba83d7285ed9125d89f12a04fcc45e48
         } 
     }
     z=0;
@@ -65,11 +47,7 @@ int main(){
         if((i+1)>=2 && (i+1)%2==0) printf("\n");
     }
    
-<<<<<<< HEAD
     for(i=0;i<2;i++){
-=======
-    for(i=0;i<(2*2);i++){
->>>>>>> d9bb383bba83d7285ed9125d89f12a04fcc45e48
         free(matriz[i]);
     }
     free(matriz);
