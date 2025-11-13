@@ -1,6 +1,6 @@
-#include <stdio.h>
+ #include <stdio.h>
 
-void dançante(char * string){
+void dancante(char * string){
 
     int i,y, flag=0;
 
@@ -8,51 +8,88 @@ void dançante(char * string){
         if(string[i]!=' '){
             if(string[i]>='a' && string[i]<='z'){
                 flag=1;
-                break;
             }
-            else if(string[i]>='A' && string[i]<='Z'){
-                flag=0;
-                break;
-            }
-             
+            break;
         }
     }
+    
+    // flag 1 = letra minuscula -> precisa ir para maiuscula
+    // flag 0 = letra maiuscula -> precisa ir para minuscula, com excessão da primeira letra
     if(flag==1){
 
-        for(y=i+1;string[y]!='\0';y++){
+        for(y=i;string[y]!='\0';y++){
             if(string[y]!=' '){
-                if(flag==1){
-                    string[y]+=32;
+                if(y == i){
+
+                    string[y]-=32;
+                    flag = 0;
+            
+                }
+
+                else if(flag == 1 & (string[y]>='A' && string[y]<='Z')){
                     flag = 0;
                 }
-            }
-                if(flag==1){
+
+                else if(flag == 0 & (string[y]>='a' && string[y]<='z')){
+                    flag = 1;
+                }
+
+                else if(flag == 0){
                     string[y]+=32;
+                    flag = 1;
+                }
+
+                else if(flag == 1){
+                    string[y]-=32;
                     flag = 0;
                 }
             }
         }
     }
-    for(i=0;string[i]!='\0';i++){
-        if(string[i]!=' '){
-            if(string[i]>='a' && string[i]<='z')flag=1;
-            else if(string[i]>='A' && string[i]<='Z')flag=0;
-            if 
+    else if (flag==0){
+
+        for(y=i;string[y]!='\0';y++){
+            if(string[y]!=' '){
+
+                if(y == i){
+                    flag = 0;
+                }
+
+                else if(flag == 1 && (string[y]>='A' && string[y]<='Z')){
+                    flag = 0;
+                }
+
+                else if(flag == 0 && (string[y]>='a' && string[y]<='z')){
+                    flag = 1;
+                }
+
+                else if(flag == 0){
+                    string[y]+=32;
+                    flag = 1;
+                }
+
+                else if(flag == 1){
+                    string[y]-=32;
+                    flag = 0;
+                }
+            }
         }
     }
 
-    
-    
+
+
 }        
 
 
 int main(){
 
-    char str[257]; // string original
-    char clr[257]; // lista de caracteres indesejados
-    scanf("%[^\n]%*c", str);
-    scanf("%[^\n]%*c", clr);
-    str_clean(str, clr);
-    printf("%s\n", str);
+    int i;
+    char str[51];
+
+    while(scanf("%[^\n]%*c", str) != EOF){ 
+        dancante(str);
+        for(i=0;str[i]!='\0';i++) printf("%c",str[i]);
+        printf("\n");
+    }
     return 0;
 }
