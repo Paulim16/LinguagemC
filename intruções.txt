@@ -1,0 +1,27 @@
+14) Somatório de um intervalo (S)
+Entrada(s): inteiros
+Saída(s): long long int
+Exemplo(s): 
+Entrada: 8 S 10
+Saída: 27
+
+15) Produtório de um intervalo (P)
+Entrada(s): inteiros
+Saída(s): long long int
+Exemplo(s): 
+Entrada: 4 P 7
+Saída: 840
+
+16) Mínimo entre dois números (min)
+Entrada(s): inteiros
+Saída(s): inteiro
+Exemplo(s): 
+Entrada: 512 min 940
+Saída: 512
+
+17) Máximo entre dois números (max)
+Entrada(s): inteiros
+Saída(s): inteiro
+Exemplo(s): 
+Entrada: 512 max 940
+Saída: 940
