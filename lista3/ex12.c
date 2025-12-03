@@ -1,5 +1,5 @@
-
-
+#include <stdio.h>
+#include <stdlib.h>
 
 struct tRacional{
   int num;
@@ -37,12 +37,10 @@ int MDC(int x, int y){
 }
  
 struct tRacional racional(int a, int b){
-
-  int mdc = MDC(a,b);
-  struct tRacional frac;
-  frac.num = a/mdc;
-  frac.den = b/mdc;
-  return frac;
+  struct tRacional razao;
+  razao.num = a;
+  razao.den = b;
+  return razao;
 }
  
 struct tRacional negativo(struct tRacional r){
@@ -67,21 +65,26 @@ struct tRacional mult(struct tRacional r1, struct tRacional r2){
   return racional(multiplica.num,multiplica.den);
 }
 
-
-  Recebe dois racionais e retorna o quociente de ambos (r1/r2).
-  param r1 numerador
-  param r2 denominador
-  return
-
- struct tRacional div(struct tRacional r1, struct tRacional r2){
+struct tRacional div(struct tRacional r1, struct tRacional r2){
   struct tRacional divide;
   divide.num = r1.num*r2.den;
   divide.den = r1.den*r2.num;
   return racional(divide.num,divide.den);
 }
 
+void reduzFracao( struct tRacional  r){
+  int mdc = MDC(r.num,r.den);
+  struct tRacional reduzida;
+  reduzida.num = r.num/mdc;
+  reduzida.den = r.den/mdc;
+  return reduzida;
+}
 
-  Recebe um racional e reduz a fração ao máximo.
-  param r o número racional a ser reduzido
-
- void reduzFracao( struct tRacional  r);
+int main(){
+  int a,b;
+  while(scanf("%d %d",&a, &b)!= EOF){
+    struct tRacional fracao;
+  
+  }
+  return 0;
+}
