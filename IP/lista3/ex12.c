@@ -1,39 +1,15 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 struct tRacional{
   int num;
   int den;
 };
 
-int MDC(int x, int y){
-  int mdc = 1;
-  int flag;
-  while (x % 2 == 0 || y % 2 == 0){
-    int flag=0;
-    if (x % 2 == 0) x/=2; flag++;
-    if (y % 2 == 0) x/=2;flag++;
-    if (flag==2)mdc*=2;
-  }
-  while (x % 3 == 0 || y % 3 == 0){
-    int flag=0;
-    if (x % 3 == 0) x/=3;flag++;
-    if (y % 3 == 0) x/=3;flag++;
-    if (flag==3)mdc*=3;
-  }
-  while (x % 5 == 0 || y % 5 == 0){
-    int flag=0;
-    if (x % 5 == 0) x/=5;flag++;
-    if (y % 5 == 0) x/=5;flag++;
-    if (flag==5)mdc*=5;
-  }
-  while (x % 7 == 0 || y % 7 == 0){
-    int flag=0;
-    if (x % 7 == 0) x/=7;flag++;
-    if (y % 7 == 0) x/=7;flag++;
-    if (flag==7)mdc*=7;
-  }
-  return mdc;
+int MDC(int a, int b) { // -> vi isso na internet de mdc em peogramação
+    if (a < 0) a = -a; 
+    if (b < 0) b = -b; 
+    if (b == 0) return a;
+    return MDC(b, a % b);
 }
  
 struct tRacional racional(int a, int b){
@@ -44,10 +20,9 @@ struct tRacional racional(int a, int b){
 }
  
 struct tRacional negativo(struct tRacional r){
-
   struct tRacional neg;
   neg.num = -(r.num);
-  neg.den = -(r.num);
+  neg.den = r.den;
   return neg;  
 }
 
@@ -72,19 +47,41 @@ struct tRacional div(struct tRacional r1, struct tRacional r2){
   return racional(divide.num,divide.den);
 }
 
-void reduzFracao( struct tRacional  r){
-  int mdc = MDC(r.num,r.den);
+void reduzFracao( struct tRacional * r){
+  int mdc = MDC(r->num,r->den);
   struct tRacional reduzida;
-  reduzida.num = r.num/mdc;
-  reduzida.den = r.den/mdc;
-  return reduzida;
+  r->num /= mdc;
+  r->den /= mdc;
 }
 
 int main(){
-  int a,b;
-  while(scanf("%d %d",&a, &b)!= EOF){
-    struct tRacional fracao;
-  
+  int a,b,c,d;
+  char ope;
+  while(scanf("%d %d %c %d %d",&a, &b,&ope,&c,&d)!= EOF){
+    struct tRacional fracao1 = racional(a,b);
+    struct tRacional fracao2 = racional(c,d);
+    struct tRacional saida;
+    if(ope == '+'){ 
+      saida = soma(fracao1,fracao2);
+      reduzFracao(&saida);
+      printf("%d %d\n",saida.num, saida.den);
+    }
+    else if(ope == '-'){
+      fracao2 = negativo(fracao2);
+      saida = soma(fracao1,fracao2);
+      reduzFracao(&saida);
+      printf("%d %d\n",saida.num, saida.den); 
+    }
+    else if(ope == '*'){
+      saida = mult(fracao1,fracao2);
+      reduzFracao(&saida);
+      printf("%d %d\n",saida.num, saida.den);
+    }
+    else if(ope == '/'){
+      saida = div(fracao1,fracao2);
+      reduzFracao(&saida);
+      printf("%d %d\n",saida.num, saida.den);
+    }
   }
   return 0;
 }
