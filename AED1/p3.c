@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 int prioridade(char c) {
     if (c == '^') return 3;
     if (c == '*' || c == '/') return 2;
@@ -11,15 +10,17 @@ int prioridade(char c) {
 }
 
 int main() {
-    int t;
-    scanf("%d", &t);
-
     char exp[1005];
     char pilha[1005];
 
-    for (int i = 0; i < t; i++) {
+    while (scanf(" %[^\n]", exp) == 1) {
 
-        scanf(" %[^\n]", exp);
+        int len = strlen(exp);
+        if (len > 0 && exp[len-1] == '\r') {
+            exp[len-1] = '\0';
+        }
+
+        printf("%s\n", exp);
 
         int valido = 1;
         int cont_parenteses = 0;
@@ -41,6 +42,7 @@ int main() {
         }
 
         int topo = -1;
+        int primeiro = 1;
 
         for (int j = 0; exp[j] != '\0'; j++) {
             char c = exp[j];
@@ -48,33 +50,45 @@ int main() {
             if (c == ' ' || c == '\n' || c == '\r') continue;
 
             if ((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')) {
+                if (!primeiro) printf(" "); 
                 printf("%c", c);
-            }
+                primeiro = 0; 
+            } 
             else if (c == '(') {
                 topo++;
                 pilha[topo] = c;
-            }
+            } 
             else if (c == ')') {
                 while (topo != -1 && pilha[topo] != '(') {
+                    if (!primeiro) printf(" ");
                     printf("%c", pilha[topo]);
+                    primeiro = 0;
                     topo--;
                 }
                 if (topo != -1) topo--;
-            }
+            } 
             else {
                 while (topo != -1 && prioridade(pilha[topo]) >= prioridade(c)) {
+                    if (c == '^' && pilha[topo] == '^') break;
+                    
+                    if (!primeiro) printf(" ");
                     printf("%c", pilha[topo]);
+                    primeiro = 0;
                     topo--;
                 }
                 topo++;
                 pilha[topo] = c;
             }
         }
+
         while (topo != -1) {
+            if (!primeiro) printf(" ");
             printf("%c", pilha[topo]);
+            primeiro = 0;
             topo--;
         }
-        printf("\n");
+
+        printf("\n\n");
     }
 
     return 0;
