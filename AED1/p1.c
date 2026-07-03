@@ -1,52 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void inserir(int *pilha, int *topo, int x) {
-    (*topo)++;
-    pilha[*topo] = x;
+typedef struct No {
+    int valor;
+    struct No* proximo;
+} No;
+
+void push(No** topo, int x) {
+    No* novo = (No*)malloc(sizeof(No));
+    novo->valor = x;
+    novo->proximo = *topo;
+    *topo = novo;
 }
 
-void remover(int *pilha, int *topo) {
-    if (*topo > -1) {
-        printf("%d\n", pilha[*topo]);
-        (*topo)--;
-    } else {
-        printf("-1\n");
+int pop(No** topo) {
+    No* temp = *topo;
+    int val = temp->valor;
+    *topo = (*topo)->proximo;
+    free(temp);
+    return val;
+}
+
+void limpar(No** topo) {
+    while (*topo != NULL) {
+        pop(topo);
     }
 }
 
-void imprimir_topo(int *pilha, int topo) {
-    if (topo > -1) {
-        printf("%d\n", pilha[topo]);
-    } else {
-        printf("-1\n");
-    }
-}
-
-void limpar(int *topo) {
-    *topo = -1;
-}
-
-void imprimir(int *pilha, int topo) {
-    if (topo > -1) {
-        for (int i = topo; i >= 0; i--) {
-            printf("%d", pilha[i]);
-            if (i != 0) {
-                printf(" ");
-            }
-        }
+void imprimir(No* topo) {
+    if (topo == NULL) {
         printf("\n");
-    } else {
-        printf("\n");
+        return;
     }
+    
+    No* atual = topo;
+    int primeiro = 1;
+    
+    while (atual != NULL) {
+        if (!primeiro) printf(" ");
+        printf("%d", atual->valor);
+        primeiro = 0;
+        atual = atual->proximo;
+    }
+    printf("\n");
 }
 
 int main() {
     int q;
     if (scanf("%d", &q) != 1) return 0;
-    
-    int *pilha = (int*)malloc(200005 * sizeof(int));
-    int topo_idx = -1;
+
+    No* pilha = NULL;
+    int tamanho = 0;
+
     char comando;
     int x;
 
@@ -55,20 +60,37 @@ int main() {
 
         if (comando == 'I') {
             scanf("%d", &x);
-            inserir(pilha, &topo_idx, x);
-        } else if (comando == 'R') {
-            remover(pilha, &topo_idx);
-        } else if (comando == 'T') {
-            imprimir_topo(pilha, topo_idx);
-        } else if (comando == 'S') {
-            printf("%d\n", topo_idx + 1);
-        } else if (comando == 'C') {
-            limpar(&topo_idx);
-        } else if (comando == 'P') {
-            imprimir(pilha, topo_idx);
+            push(&pilha, x);
+            tamanho++;
+        } 
+        else if (comando == 'R') {
+            if (pilha == NULL) {
+                printf("-1\n");
+            } else {
+                printf("%d\n", pop(&pilha));
+                tamanho--;
+            }
+        } 
+        else if (comando == 'T') {
+            if (pilha == NULL) {
+                printf("-1\n");
+            } else {
+                printf("%d\n", pilha->valor);
+            }
+        } 
+        else if (comando == 'S') {
+            printf("%d\n", tamanho);
+        } 
+        else if (comando == 'C') {
+            limpar(&pilha);
+            tamanho = 0;
+        } 
+        else if (comando == 'P') {
+            imprimir(pilha);
         }
     }
 
-    free(pilha);
+    limpar(&pilha);
+
     return 0;
 }
